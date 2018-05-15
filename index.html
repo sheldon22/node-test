@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body> 
+    <h5>账户余额是 <span id="amount">$$$amount$$$</span></h5>
+    <button id="button">付款</button>
+    <!--1. 做个按钮
+    <button id="button">付款1块钱</button>
+    <script>
+    button.onclick = function(e){
+        let n = amount.innerText        // 取到amount的值
+        let number = parseInt(n, 10)    // 把它变为数字
+        let newNumber = number - 1
+        amount.innerText = newNumber
+    }
+    </script>
+    -->
+
+    <!-- 2. 如何使付款后的余额保存下来: 使用form表单来发post请求, 通过服务器来更改.
+            form表单一旦提交必定会刷新当前页面.
+    <form action="/pay" method="post">          
+        <input type="submit" value="付款">
+    </form>
+    -->
+
+    <!-- 3. 解决form刷新页面的问题, 使用img发送请求.
+            但使用img发送请求无法POST, 只能GET.
+    <script>
+        button.onclick = function(){
+            let image = document.createElement('img')
+            image.src = '/pay'
+        }
+    </script>
+    -->
+
+    <!-- 4. 由于使用img发送请求必须自带图片而且无法POST.
+        所以我们换成script来发请求, 但script还是无法POST.
+        只能get!
+    -->
+    <script>
+        button.onclick = function(){
+            let script = document.createElement('script')
+            script.src = '/pay'
+            // 与img不同的是, 必须将script放在页面才能成功.
+            document.body.appendChild(script)
+            // 使用数据库判断付款状态
+            script.onload = function(e){
+                e.currentTarget.remove()
+            }
+            script.onerror = function(e){
+                alert('fail')
+                e.currentTarget.remove()
+            }
+        }
+    </script>
+</body>
+</html>
